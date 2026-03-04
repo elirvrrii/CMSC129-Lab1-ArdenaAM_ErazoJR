@@ -17,7 +17,7 @@ const journalSchema = new mongoose.Schema(
       enum: ["happy", "sad", "neutral", "anxious", "excited", "angry"],
       default: "neutral",
     },
-    // Soft delete fields
+    // for soft delete
     isDeleted: {
       type: Boolean,
       default: false,
@@ -30,7 +30,6 @@ const journalSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Register the model on BOTH connections
 const PrimaryEntry = primaryConn.model("JournalEntry", journalSchema);
 const BackupEntry = backupConn.model("JournalEntry", journalSchema);
 

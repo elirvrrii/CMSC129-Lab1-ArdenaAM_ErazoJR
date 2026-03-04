@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const auth = require("../middleware/auth");
 const { PrimaryEntry, BackupEntry } = require("../models/journalEntry");
 
 const router = express.Router();
