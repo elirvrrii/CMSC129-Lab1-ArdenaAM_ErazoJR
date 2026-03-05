@@ -4,13 +4,13 @@ This is your own personal web diary! inJOURNALize serves as both a journal and m
 
 ---
 ## TABLE OF CONTENTS 📋
-- [Features] (#features)
-- [Tech Stack] (#techstack)
-- [Prerequisites] (#prerequisites)
-- [Installation] (#installation)
-- [Environment Variables] (#env-var)
-- [How to Run the Server] (#run-server)
-- [API Endpoints] (#endpoints)
+- [Features] 
+- [Tech Stack] 
+- [Prerequisites]
+- [Installation]
+- [Environment Variables] 
+- [How to Run the Server] 
+- [API Endpoints] 
 
 ---
 
