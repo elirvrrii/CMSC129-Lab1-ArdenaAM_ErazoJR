@@ -8,8 +8,6 @@ This is your own personal web diary! inJOURNALize serves as both a journal and m
 - [Tech Stack] 
 - [Prerequisites]
 - [Installation]
-- [Environment Variables] 
-- [How to Run the Server] 
 - [API Endpoints] 
 
 ---
