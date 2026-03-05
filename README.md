@@ -24,16 +24,13 @@ This is your own personal web diary! inJOURNALize serves as both a journal and m
 ## TECH STACK 💻
 
 # Frontend
-- **React.js
-- **Vite
+- **React.js**
+- **Vite**
 
 # Backend
-- **Node.js
-- **Express.js
-- **MongoDB Atlas (Mongoose)
-- **JSON Web Tokens
-- **bcrypt
-- **dotenv
+- **Node.js**
+- **Express.js**
+- **MongoDB Atlas (Mongoose)**
 
 ---
 
