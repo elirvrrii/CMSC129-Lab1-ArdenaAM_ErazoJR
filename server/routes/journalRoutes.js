@@ -37,7 +37,14 @@ router.post("/", async (req, res) => {
     await syncToBackup(entry);
     res.status(201).json(entry);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    // Primary failed — write directly to backup instead
+    try {
+      console.warn("⚠️  Primary write failed, writing to backup...");
+      const entry = await BackupEntry.create({ title, content, mood, tags });
+      res.status(201).json({ source: "backup", ...entry.toObject() });
+    } catch (backupError) {
+      res.status(500).json({ error: "Both databases unavailable." });
+    }
   }
 });
 
@@ -117,7 +124,19 @@ router.patch("/:id", async (req, res) => {
     await syncToBackup(entry);
     res.status(200).json(entry);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    // Fallback — update in backup only
+    try {
+      console.warn("⚠️  Primary update failed, updating backup...");
+      const entry = await BackupEntry.findOneAndUpdate(
+        { _id: id, isDeleted: false },
+        { ...req.body },
+        { new: true, runValidators: true }
+      );
+      if (!entry) return res.status(404).json({ error: "Entry not found" });
+      res.status(200).json({ source: "backup", ...entry.toObject() });
+    } catch (backupError) {
+      res.status(500).json({ error: "Both databases unavailable." });
+    }
   }
 });
 
@@ -144,7 +163,19 @@ router.delete("/:id", async (req, res) => {
     await syncToBackup(entry);
     res.status(200).json({ message: "Entry soft deleted", entry });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    // Fallback — soft delete in backup only
+    try {
+      console.warn("⚠️  Primary delete failed, deleting from backup...");
+      const entry = await BackupEntry.findOneAndUpdate(
+        { _id: id, isDeleted: false },
+        { isDeleted: true, deletedAt: new Date() },
+        { new: true }
+      );
+      if (!entry) return res.status(404).json({ error: "Entry not found or already deleted" });
+      res.status(200).json({ source: "backup", message: "Entry soft deleted", entry });
+    } catch (backupError) {
+      res.status(500).json({ error: "Both databases unavailable." });
+    }
   }
 });
 
